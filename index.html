@@ -12,120 +12,220 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Comic Sans MS', 'Apple Color Emoji', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #A8EDEA 0%, #FED6E3 50%, #FFD1FF 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 可爱的浮动气泡背景 */
+        body::before,
+        body::after {
+            content: '💧';
+            position: fixed;
+            font-size: 50px;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::before {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        body::after {
+            bottom: 15%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
         }
 
         .container {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 30px;
+            padding: 40px;
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.4),
+                        0 0 0 8px rgba(255, 255, 255, 0.8);
+            position: relative;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         h1 {
             text-align: center;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-size: 28px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 50%, #5AC8FA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 35px;
+            font-size: 32px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.2);
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
+            margin-bottom: 10px;
+            color: #FF6B9D;
+            font-weight: 700;
+            font-size: 15px;
         }
 
         input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 16px;
+            border: 3px solid #FFD1FF;
+            border-radius: 18px;
             font-size: 16px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             -webkit-appearance: none;
+            background: #FFFAF8;
         }
 
         input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #FF6B9D;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15);
+            transform: translateY(-2px);
         }
 
         .unit {
-            color: #999;
-            font-size: 14px;
+            color: #C06EF5;
+            font-size: 15px;
             margin-left: 5px;
+            font-weight: 600;
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 157, 0.4);
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: translateY(-1px) scale(0.98);
         }
 
         .result {
             margin-top: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFE6F7 100%);
+            border-radius: 25px;
             display: none;
+            border: 3px solid #FFD1FF;
         }
 
         .result.show {
             display: block;
-            animation: slideIn 0.3s ease-out;
+            animation: slideInBounce 0.5s ease-out;
         }
 
-        @keyframes slideIn {
-            from {
+        @keyframes slideInBounce {
+            0% {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-20px) scale(0.9);
             }
-            to {
+            60% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(5px) scale(1.02);
+            }
+            100% {
+                transform: translateY(0) scale(1);
             }
         }
 
         .result h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 20px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            font-size: 22px;
             text-align: center;
+            font-weight: 800;
         }
 
         .step {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 18px;
+            border-radius: 18px;
             margin-bottom: 15px;
-            border-left: 4px solid #667eea;
+            border: 3px solid #FFD1FF;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.3);
         }
 
         .step:last-child {
@@ -134,33 +234,43 @@
 
         .step-number {
             display: inline-block;
-            background: #667eea;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
             color: white;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             text-align: center;
-            line-height: 28px;
-            margin-right: 10px;
-            font-weight: bold;
-            font-size: 14px;
+            line-height: 32px;
+            margin-right: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
         }
 
         .step-content {
             display: inline-block;
             color: #333;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .error {
-            color: #e74c3c;
+            color: #FF6B9D;
             text-align: center;
-            padding: 15px;
-            background: #ffe5e5;
-            border-radius: 10px;
+            padding: 18px;
+            background: #FFE6F7;
+            border-radius: 18px;
             margin-top: 15px;
             display: none;
+            font-weight: 700;
+            border: 3px solid #FFB6C1;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         .error.show {
@@ -168,17 +278,18 @@
         }
 
         .advanced {
-            border-top: 1px solid #e0e0e0;
-            padding-top: 20px;
-            margin-top: 20px;
+            border-top: 3px dashed #FFD1FF;
+            padding-top: 25px;
+            margin-top: 25px;
         }
 
         .advanced-title {
-            color: #999;
-            font-size: 12px;
+            color: #C06EF5;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            font-weight: 800;
         }
 
         .button-group {
@@ -191,16 +302,24 @@
         .option-button {
             flex: 1;
             min-width: 80px;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-            border-radius: 10px;
+            color: #FF6B9D;
+            border: 3px solid #FFD1FF;
+            border-radius: 18px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-align: center;
+            position: relative;
+        }
+
+        .option-button:hover:not(.active) {
+            background: #FFF5F5;
+            border-color: #FF6B9D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
         }
 
         .option-button:active {
@@ -208,13 +327,23 @@
         }
 
         .option-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
             color: white;
-            border-color: #667eea;
+            border-color: #FF6B9D;
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.3);
+            animation: pulse 0.6s ease;
         }
 
-        .option-button:hover:not(.active) {
-            background: #f5f7ff;
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .custom-input {
@@ -224,13 +353,13 @@
 
         .custom-input.show {
             display: block;
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeInUp 0.4s ease-out;
         }
 
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(-5px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -246,10 +375,10 @@
         <div class="input-group">
             <label>期望水温 <span class="unit">°C</span></label>
             <div class="button-group">
-                <button type="button" class="option-button active" onclick="selectTemp(45)">45°C</button>
-                <button type="button" class="option-button" onclick="selectTemp(70)">70°C</button>
-                <button type="button" class="option-button" onclick="selectTemp(80)">80°C</button>
-                <button type="button" class="option-button" onclick="selectTemp('custom')">自定义</button>
+                <button type="button" class="option-button active" onclick="selectTemp(45, event)">45°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(70, event)">70°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(80, event)">80°C</button>
+                <button type="button" class="option-button" onclick="selectTemp('custom', event)">自定义</button>
             </div>
             <div class="custom-input" id="customTempInput">
                 <input type="number" id="targetTemp" placeholder="请输入期望温度" value="45" step="1" min="20" max="100">
@@ -259,9 +388,9 @@
         <div class="input-group">
             <label>杯子容量 <span class="unit">毫升</span></label>
             <div class="button-group">
-                <button type="button" class="option-button active" onclick="selectCup(1500)">1500ml</button>
-                <button type="button" class="option-button" onclick="selectCup(400)">400ml</button>
-                <button type="button" class="option-button" onclick="selectCup('custom')">自定义</button>
+                <button type="button" class="option-button active" onclick="selectCup(1500, event)">1500ml</button>
+                <button type="button" class="option-button" onclick="selectCup(400, event)">400ml</button>
+                <button type="button" class="option-button" onclick="selectCup('custom', event)">自定义</button>
             </div>
             <div class="custom-input" id="customCupInput">
                 <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
@@ -309,7 +438,7 @@
         let currentCup = 1500;
 
         // 选择温度
-        function selectTemp(value) {
+        function selectTemp(value, event) {
             const buttons = document.querySelectorAll('.input-group:first-child .option-button');
             const customInput = document.getElementById('customTempInput');
             const targetTempInput = document.getElementById('targetTemp');
@@ -317,12 +446,16 @@
             buttons.forEach(btn => btn.classList.remove('active'));
 
             if (value === 'custom') {
-                event.target.classList.add('active');
+                if (event && event.target) {
+                    event.target.classList.add('active');
+                }
                 customInput.classList.add('show');
                 targetTempInput.focus();
                 currentTemp = parseFloat(targetTempInput.value) || 45;
             } else {
-                event.target.classList.add('active');
+                if (event && event.target) {
+                    event.target.classList.add('active');
+                }
                 customInput.classList.remove('show');
                 currentTemp = value;
                 targetTempInput.value = value;
@@ -330,7 +463,7 @@
         }
 
         // 选择杯子容量
-        function selectCup(value) {
+        function selectCup(value, event) {
             const buttons = document.querySelectorAll('.input-group:nth-child(2) .option-button');
             const customInput = document.getElementById('customCupInput');
             const cupSizeInput = document.getElementById('cupSize');
@@ -338,12 +471,16 @@
             buttons.forEach(btn => btn.classList.remove('active'));
 
             if (value === 'custom') {
-                event.target.classList.add('active');
+                if (event && event.target) {
+                    event.target.classList.add('active');
+                }
                 customInput.classList.add('show');
                 cupSizeInput.focus();
                 currentCup = parseFloat(cupSizeInput.value) || 1500;
             } else {
-                event.target.classList.add('active');
+                if (event && event.target) {
+                    event.target.classList.add('active');
+                }
                 customInput.classList.remove('show');
                 currentCup = value;
                 cupSizeInput.value = value;
