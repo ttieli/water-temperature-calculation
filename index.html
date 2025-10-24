@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>水温混合计算器</title>
     <style>
+        :root {
+            /* 控件高度和圆角统一变量 */
+            --control-height: 54px;
+            --control-radius: 18px;
+            --button-radius: 20px;
+            --number-btn-size: 54px;
+            --number-btn-radius: 12px;
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --control-height: 50px;
+                --number-btn-size: 50px;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,97 +28,897 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Comic Sans MS', 'Apple Color Emoji', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #E0F7FA 0%, #81D4FA 50%, #4FC3F7 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 波浪背景层 */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,60 350,0 600,50 C850,100 1050,40 1200,80 L1200,120 L0,120 Z' fill='%2329B6F6' fill-opacity='0.3'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: bottom;
+            opacity: 0.4;
+            pointer-events: none;
+            animation: wave 10s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(-25px) translateY(-10px);
+            }
+        }
+
+        /* 响应式气泡动画 */
+        .bubble {
+            position: fixed;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(129, 212, 250, 0.3));
+            border-radius: 50%;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: rise 15s infinite ease-in;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .bubble:nth-child(1) {
+            left: 10%;
+            width: 40px;
+            height: 40px;
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .bubble:nth-child(2) {
+            left: 25%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 2s;
+            animation-duration: 15s;
+        }
+
+        .bubble:nth-child(3) {
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 4s;
+            animation-duration: 10s;
+        }
+
+        .bubble:nth-child(4) {
+            left: 75%;
+            width: 50px;
+            height: 50px;
+            animation-delay: 1s;
+            animation-duration: 13s;
+        }
+
+        .bubble:nth-child(5) {
+            left: 90%;
+            width: 35px;
+            height: 35px;
+            animation-delay: 3s;
+            animation-duration: 11s;
+        }
+
+        @media (max-width: 768px) {
+            .bubble:nth-child(1), .bubble:nth-child(2) {
+                width: 30px;
+                height: 30px;
+            }
+            .bubble:nth-child(3), .bubble:nth-child(4), .bubble:nth-child(5) {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+                transform: translateX(0) scale(1);
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+                transform: translateX(100px) scale(0.5);
+            }
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 30px;
+            padding: 40px;
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(79, 195, 247, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+            animation: bounceIn 0.6s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         h1 {
             text-align: center;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-size: 28px;
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 50%, #00ACC1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 35px;
+            font-size: 32px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(79, 195, 247, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0288D1;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        @media (max-width: 480px) {
+            label {
+                font-size: 14px;
+            }
+        }
+
+        .section-title {
+            display: block;
+            color: #0097A7;
             font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            padding-left: 5px;
+            border-left: 4px solid #4FC3F7;
+            padding-left: 12px;
         }
 
         input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            height: var(--control-height);
+            padding: 0 16px;
+            border: 3px solid #B3E5FC;
+            border-radius: var(--control-radius);
             font-size: 16px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            background: #F1F8FB;
+            line-height: normal;
+        }
+
+        /* 数字输入框样式 - 隐藏原生上下按键 */
+        input[type="number"] {
             -webkit-appearance: none;
+            appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        /* 隐藏浏览器默认的上下按键 */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+            display: none;
         }
 
         input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #0288D1;
+            box-shadow: 0 0 0 4px rgba(2, 136, 209, 0.15), 0 4px 12px rgba(2, 136, 209, 0.2);
+            /* 移除 transform，避免Safari下的布局偏移 */
+        }
+
+        @media (max-width: 480px) {
+            input {
+                padding: 0 14px;
+                font-size: 15px;
+            }
         }
 
         .unit {
-            color: #999;
-            font-size: 14px;
+            color: #0097A7;
+            font-size: 15px;
             margin-left: 5px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .unit {
+                font-size: 14px;
+            }
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: var(--control-height);
+            padding: 0 20px;
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: var(--button-radius);
+            font-size: 20px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(2, 136, 209, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: normal;
+        }
+
+        /* 主操作按钮专用样式 */
+        .primary-button {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
+            button {
+                font-size: 18px;
+            }
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            box-shadow: 0 12px 30px rgba(2, 136, 209, 0.4), 0 4px 12px rgba(2, 136, 209, 0.3);
         }
 
         button:active {
-            transform: scale(0.98);
+            box-shadow: 0 4px 12px rgba(2, 136, 209, 0.25);
         }
 
         .result {
             margin-top: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
+            padding: 30px;
+            background: linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%);
+            border-radius: 25px;
             display: none;
+            border: 3px solid #81D4FA;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .result {
+                padding: 20px;
+            }
         }
 
         .result.show {
             display: block;
-            animation: slideIn 0.3s ease-out;
+            animation: slideInBounce 0.5s ease-out;
         }
 
-        @keyframes slideIn {
+        @keyframes slideInBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.9);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(5px) scale(1.02);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .result h2 {
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            font-size: 22px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .result h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* 温度指示器 */
+        .temp-indicator {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .temp-bar-container {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to right,
+                #29B6F6 0%,
+                #4FC3F7 20%,
+                #26A69A 40%,
+                #66BB6A 60%,
+                #FFB74D 80%,
+                #FF6E40 100%);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .temp-marker {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 70%;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.8);
+            transition: left 0.5s ease-out;
+            z-index: 2;
+        }
+
+        .temp-marker::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .temp-value {
+            display: block;
+            margin-top: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #0288D1;
+        }
+
+        /* 水位指示器 */
+        .water-level {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .water-cup {
+            position: relative;
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.5) 100%);
+            border: 3px solid #0288D1;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        /* 热水层 - 在底部 */
+        .water-hot {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top,
+                rgba(255, 87, 34, 0.85) 0%,
+                rgba(255, 152, 0, 0.75) 100%);
+            transition: height 0.8s ease-out;
+            z-index: 1;
+        }
+
+        /* 冷水层 - 在热水上面 */
+        .water-cold {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top,
+                rgba(3, 169, 244, 0.85) 0%,
+                rgba(129, 212, 250, 0.75) 100%);
+            transition: height 0.8s ease-out 0.1s;
+            z-index: 2;
+        }
+
+        @keyframes waterWave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .water-info {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .water-info .volume-total {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .water-info .volume-total strong {
+            color: #0288D1;
+            font-size: 17px;
+        }
+
+        .water-info .volume-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .hot-water-info,
+        .cold-water-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .color-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .color-indicator.hot {
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.9) 0%, rgba(255, 152, 0, 0.8) 100%);
+            box-shadow: 0 1px 3px rgba(255, 87, 34, 0.4);
+        }
+
+        .color-indicator.cold {
+            background: linear-gradient(135deg, rgba(3, 169, 244, 0.9) 0%, rgba(129, 212, 250, 0.8) 100%);
+            box-shadow: 0 1px 3px rgba(3, 169, 244, 0.4);
+        }
+
+        .hot-water-info strong,
+        .cold-water-info strong {
+            color: #0288D1;
+            font-weight: 700;
+        }
+
+        .step {
+            background: white;
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            border: 3px solid #B3E5FC;
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 480px) {
+            .step {
+                padding: 14px;
+                gap: 10px;
+            }
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(2, 136, 209, 0.3);
+        }
+
+        .step:nth-child(1) .step-number {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+        }
+
+        .step:nth-child(2) .step-number {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+        }
+
+        .step:nth-child(3) .step-number {
+            background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+        }
+
+        @media (max-width: 480px) {
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
+
+        .step-content {
+            flex: 1;
+            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        @media (max-width: 480px) {
+            .step-content {
+                font-size: 14px;
+            }
+        }
+
+        /* 步骤内容的温度标签样式 - 使用温度色谱系统 */
+        .temp-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 800;
+            margin: 0 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 温度色谱：根据温度动态设置颜色 */
+        /* 极冷 0-30°C - 深蓝色 */
+        .temp-tag.temp-very-cold {
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            color: white;
+        }
+
+        /* 冷 30-50°C - 蓝色 */
+        .temp-tag.temp-cold {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            color: white;
+        }
+
+        /* 温 50-70°C - 青绿色 */
+        .temp-tag.temp-warm {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            color: white;
+        }
+
+        /* 热 70-85°C - 橙色 */
+        .temp-tag.temp-hot {
+            background: linear-gradient(135deg, #FFB74D 0%, #FB8C00 100%);
+            color: white;
+        }
+
+        /* 极热 85-100°C - 橙红色 */
+        .temp-tag.temp-very-hot {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            color: white;
+        }
+
+        .error {
+            color: #D32F2F;
+            text-align: center;
+            padding: 18px;
+            background: #FFEBEE;
+            border-radius: 18px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 700;
+            border: 3px solid #EF9A9A;
+            animation: shake 0.5s ease;
+        }
+
+        @media (max-width: 480px) {
+            .error {
+                padding: 14px;
+                font-size: 14px;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .advanced {
+            border-top: 3px dashed #B3E5FC;
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 480px) {
+            .advanced {
+                padding-top: 20px;
+                margin-top: 20px;
+            }
+        }
+
+        .advanced-title {
+            color: #0097A7;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .advanced-title {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+
+        .option-button {
+            flex: 1;
+            min-width: 80px;
+            height: var(--control-height);
+            padding: 0 20px;
+            background: white;
+            color: #0288D1;
+            border: 3px solid #B3E5FC;
+            border-radius: var(--control-radius);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: var(--control-height);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        @media (max-width: 480px) {
+            .option-button {
+                min-width: 70px;
+                padding: 0 16px;
+                font-size: 14px;
+            }
+        }
+
+        .option-button:hover:not(.active) {
+            background: #E1F5FE;
+            border-color: #0288D1;
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.25), 0 2px 8px rgba(2, 136, 209, 0.15);
+        }
+
+        .option-button:active {
+            box-shadow: 0 1px 4px rgba(2, 136, 209, 0.15);
+        }
+
+        .option-button.active {
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
+            color: white;
+            border-color: #0288D1;
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3), 0 2px 10px rgba(2, 136, 209, 0.2);
+            animation: pulse 0.6s ease;
+        }
+
+        /* 温度按钮色阶：冷→蓝、温→青绿、热→橙红 */
+        .option-button[onclick*="45"] {
+            color: #0288D1;
+            border-color: #B3E5FC;
+            position: relative;
+        }
+
+        .option-button[onclick*="45"]:hover:not(.active) {
+            background: linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%);
+            border-color: #0288D1;
+            box-shadow: 0 0 15px rgba(41, 182, 246, 0.4);
+        }
+
+        .option-button[onclick*="45"].active {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            color: white;
+            border-color: #0288D1;
+            animation: pulseBlue 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseBlue {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(2, 136, 209, 0.5), 0 0 20px rgba(41, 182, 246, 0.3);
+            }
+        }
+
+        .option-button[onclick*="70"] {
+            color: #00897B;
+            border-color: #B2DFDB;
+        }
+
+        .option-button[onclick*="70"]:hover:not(.active) {
+            background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+            border-color: #00897B;
+            box-shadow: 0 0 15px rgba(38, 166, 154, 0.4);
+        }
+
+        .option-button[onclick*="70"].active {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            color: white;
+            border-color: #00897B;
+            animation: pulseTeal 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseTeal {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(0, 137, 123, 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(0, 137, 123, 0.5), 0 0 20px rgba(38, 166, 154, 0.3);
+            }
+        }
+
+        .option-button[onclick*="80"] {
+            color: #F4511E;
+            border-color: #FFCCBC;
+        }
+
+        .option-button[onclick*="80"]:hover:not(.active) {
+            background: linear-gradient(135deg, #FBE9E7 0%, #FFCCBC 100%);
+            border-color: #F4511E;
+            box-shadow: 0 0 15px rgba(255, 110, 64, 0.4);
+        }
+
+        .option-button[onclick*="80"].active {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            color: white;
+            border-color: #F4511E;
+            animation: pulseOrange 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseOrange {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(244, 81, 30, 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(244, 81, 30, 0.5), 0 0 20px rgba(255, 110, 64, 0.3);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .custom-input {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .custom-input.show {
+            display: block;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(-10px);
@@ -113,108 +929,226 @@
             }
         }
 
-        .result h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 20px;
-            text-align: center;
+        /* 自定义数字输入框容器 */
+        .number-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .step {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
+        .number-input-wrapper input {
+            flex: 1;
+            height: var(--control-height);
+            line-height: normal;
         }
 
-        .step:last-child {
-            margin-bottom: 0;
+        /* 自定义左右按钮 */
+        .number-controls {
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
-        .step-number {
-            display: inline-block;
-            background: #667eea;
+        .number-btn {
+            width: var(--number-btn-size);
+            height: var(--number-btn-size);
+            border: none;
+            border-radius: var(--number-btn-radius);
             color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 28px;
-            margin-right: 10px;
+            font-size: 20px;
             font-weight: bold;
-            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            line-height: var(--number-btn-size);
+            margin-top: 0; /* 防御性重置：覆盖任何全局按钮的外边距 */
         }
 
-        .step-content {
-            display: inline-block;
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
+        /* 减少按钮（降温/减小） - 冷色调 */
+        .number-btn.decrease {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            box-shadow: 0 2px 8px rgba(2, 136, 209, 0.3);
         }
 
-        .error {
-            color: #e74c3c;
-            text-align: center;
-            padding: 15px;
-            background: #ffe5e5;
-            border-radius: 10px;
-            margin-top: 15px;
-            display: none;
+        .number-btn.decrease:hover {
+            background: linear-gradient(135deg, #0288D1 0%, #01579B 100%);
+            box-shadow: 0 4px 12px rgba(2, 136, 209, 0.5), 0 2px 6px rgba(2, 136, 209, 0.3);
         }
 
-        .error.show {
-            display: block;
+        .number-btn.decrease:active {
+            box-shadow: 0 1px 4px rgba(2, 136, 209, 0.3);
         }
 
-        .advanced {
-            border-top: 1px solid #e0e0e0;
-            padding-top: 20px;
-            margin-top: 20px;
+        /* 增加按钮（升温/增大） - 暖色调 */
+        .number-btn.increase {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            box-shadow: 0 2px 8px rgba(244, 81, 30, 0.3);
         }
 
-        .advanced-title {
-            color: #999;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+        .number-btn.increase:hover {
+            background: linear-gradient(135deg, #F4511E 0%, #D84315 100%);
+            box-shadow: 0 4px 12px rgba(244, 81, 30, 0.5), 0 2px 6px rgba(244, 81, 30, 0.3);
+        }
+
+        .number-btn.increase:active {
+            box-shadow: 0 1px 4px rgba(244, 81, 30, 0.3);
+        }
+
+        /* 容量按钮 - 中性青色 */
+        .number-btn.volume-decrease {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            box-shadow: 0 2px 8px rgba(0, 137, 123, 0.3);
+        }
+
+        .number-btn.volume-decrease:hover {
+            background: linear-gradient(135deg, #00897B 0%, #00695C 100%);
+            box-shadow: 0 4px 12px rgba(0, 137, 123, 0.5), 0 2px 6px rgba(0, 137, 123, 0.3);
+        }
+
+        .number-btn.volume-decrease:active {
+            box-shadow: 0 1px 4px rgba(0, 137, 123, 0.3);
+        }
+
+        .number-btn.volume-increase {
+            background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+            box-shadow: 0 2px 8px rgba(67, 160, 71, 0.3);
+        }
+
+        .number-btn.volume-increase:hover {
+            background: linear-gradient(135deg, #43A047 0%, #2E7D32 100%);
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.5), 0 2px 6px rgba(67, 160, 71, 0.3);
+        }
+
+        .number-btn.volume-increase:active {
+            box-shadow: 0 1px 4px rgba(67, 160, 71, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .number-btn {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 气泡动画元素 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
     <div class="container">
-        <h1>💧 水温混合计算器</h1>
+        <h1>水温混合计算器</h1>
 
         <div class="input-group">
-            <label>期望水温 <span class="unit">°C</span></label>
-            <input type="number" id="targetTemp" placeholder="请输入期望温度" value="45" step="1" min="20" max="100">
+            <label class="temp-label">期望水温 <span class="unit">°C</span></label>
+            <div class="button-group">
+                <button type="button" class="option-button active" onclick="selectTemp(45, event)">45°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(70, event)">70°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(80, event)">80°C</button>
+                <button type="button" class="option-button" onclick="selectTemp('custom', event)">自定义</button>
+            </div>
+            <div class="custom-input" id="customTempInput">
+                <div class="number-input-wrapper">
+                    <input type="number" id="targetTemp" placeholder="请输入期望温度(0-100°C)" value="45" step="1" min="0" max="100">
+                    <div class="number-controls">
+                        <button type="button" class="number-btn decrease" onclick="changeValue('targetTemp', -1)">−</button>
+                        <button type="button" class="number-btn increase" onclick="changeValue('targetTemp', 1)">+</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="input-group">
-            <label>杯子容量 <span class="unit">毫升</span></label>
-            <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
+            <label class="cup-label">杯子容量 <span class="unit">毫升</span></label>
+            <div class="button-group">
+                <button type="button" class="option-button active" onclick="selectCup(1500, event)">1500ml</button>
+                <button type="button" class="option-button" onclick="selectCup(400, event)">400ml</button>
+                <button type="button" class="option-button" onclick="selectCup('custom', event)">自定义</button>
+            </div>
+            <div class="custom-input" id="customCupInput">
+                <div class="number-input-wrapper">
+                    <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
+                    <div class="number-controls">
+                        <button type="button" class="number-btn volume-decrease" onclick="changeValue('cupSize', -50)">−</button>
+                        <button type="button" class="number-btn volume-increase" onclick="changeValue('cupSize', 50)">+</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="advanced">
             <div class="advanced-title">高级设置</div>
 
             <div class="input-group">
-                <label>热水温度 <span class="unit">°C</span></label>
-                <input type="number" id="hotTemp" value="100" step="1" min="20" max="100">
+                <label class="hot-label">热水温度 <span class="unit">°C</span></label>
+                <div class="number-input-wrapper">
+                    <input type="number" id="hotTemp" value="100" step="1" min="0" max="100">
+                    <div class="number-controls">
+                        <button type="button" class="number-btn decrease" onclick="changeValue('hotTemp', -1)">−</button>
+                        <button type="button" class="number-btn increase" onclick="changeValue('hotTemp', 1)">+</button>
+                    </div>
+                </div>
             </div>
 
             <div class="input-group">
-                <label>凉水温度 <span class="unit">°C</span></label>
-                <input type="number" id="coldTemp" value="20" step="1" min="0" max="50">
+                <label class="cold-label">凉水温度 <span class="unit">°C</span></label>
+                <div class="number-input-wrapper">
+                    <input type="number" id="coldTemp" value="20" step="1" min="0" max="100">
+                    <div class="number-controls">
+                        <button type="button" class="number-btn decrease" onclick="changeValue('coldTemp', -1)">−</button>
+                        <button type="button" class="number-btn increase" onclick="changeValue('coldTemp', 1)">+</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <button onclick="calculate()">计算</button>
+        <button class="primary-button" onclick="calculate()">计算</button>
 
         <div class="error" id="error"></div>
 
         <div class="result" id="result">
+            <h2>计算结果</h2>
+
+            <!-- 温度指示器 -->
+            <div class="temp-indicator">
+                <div class="temp-bar-container">
+                    <div class="temp-marker" id="tempMarker"></div>
+                </div>
+                <span class="temp-value" id="tempValue">45°C</span>
+            </div>
+
+            <!-- 水位指示器 -->
+            <div class="water-level">
+                <div class="water-cup">
+                    <div class="water-hot" id="waterHot"></div>
+                    <div class="water-cold" id="waterCold"></div>
+                </div>
+                <div class="water-info" id="waterInfo">
+                    <div class="volume-total">总容量: <strong id="totalVolume">1500ml</strong></div>
+                    <div class="volume-detail">
+                        <div class="hot-water-info">
+                            <span class="color-indicator hot"></span>
+                            热水: <strong id="hotWaterAmount">0ml</strong> (<span id="hotWaterPercent">0%</span>)
+                        </div>
+                        <div class="cold-water-info">
+                            <span class="color-indicator cold"></span>
+                            冷水: <strong id="coldWaterAmount">0ml</strong> (<span id="coldWaterPercent">0%</span>)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h2>操作步骤</h2>
             <div class="step">
                 <span class="step-number">1</span>
@@ -232,6 +1166,158 @@
     </div>
 
     <script>
+        // 当前选择的温度和容量
+        let currentTemp = 45;
+        let currentCup = 1500;
+
+        // 根据温度返回对应的颜色类名
+        // 与期望水温按钮的颜色体系保持一致
+        function getTempColorClass(temp) {
+            if (temp < 30) return 'temp-very-cold';  // 0-30°C 深蓝
+            if (temp < 50) return 'temp-cold';       // 30-50°C 蓝色
+            if (temp <= 70) return 'temp-warm';      // 50-70°C 青绿色
+            if (temp < 85) return 'temp-hot';        // 70-85°C 橙色
+            return 'temp-very-hot';                  // 85-100°C 橙红色
+        }
+
+        // 毒舌提示语：目标温度过高（需要对水做功）
+        const tooHotMessages = [
+            '你需要对水做功 💪',
+            '建议购买一个电热水壶 ☕',
+            '物理学想和你聊聊热力学第二定律 📚',
+            '混合两杯水就想突破能量守恒？天真 🤔',
+            '要不试试把水放太阳底下晒晒？可能需要亿点点时间 ☀️',
+            '恭喜你发现了永动机的秘密...才怪 ⚙️',
+            '温馨提示：水不会自己变热的 🌡️'
+        ];
+
+        // 毒舌提示语：目标温度过低（脑子有水）
+        const tooColdMessages = [
+            '你需要先倒出你脑子里的水 🧠',
+            '建议复习一下小学数学的平均数概念 📖',
+            '两杯温水混一起能变冰水？你在逗我？🤨',
+            '物理老师看了想打人系列 👨‍🏫',
+            '要不要我帮你叫个冰箱？🧊',
+            '醒醒，这是混合水温，不是魔法表演 ✨',
+            '建议重修《物理常识与基本逻辑》🎓',
+            '混合定律：最终温度只能在两者之间，懂？📐'
+        ];
+
+        // 随机获取提示语
+        function getRandomMessage(messages) {
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        // 限制输入框数值范围为0-100
+        function limitTemperatureInput(input) {
+            let value = parseFloat(input.value);
+            if (isNaN(value)) return;
+
+            if (value < 0) {
+                input.value = 0;
+            } else if (value > 100) {
+                input.value = 100;
+            }
+        }
+
+        // 自定义按钮改变数值
+        function changeValue(inputId, step) {
+            const input = document.getElementById(inputId);
+            let currentValue = parseFloat(input.value) || 0;
+            let newValue = currentValue + step;
+
+            // 限制范围
+            if (inputId === 'cupSize') {
+                // 容量最小100
+                if (newValue < 100) newValue = 100;
+            } else {
+                // 温度范围 0-100
+                if (newValue < 0) newValue = 0;
+                if (newValue > 100) newValue = 100;
+            }
+
+            input.value = newValue;
+
+            // 触发input事件以便其他监听器响应
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        // 为所有温度输入框添加实时验证
+        document.addEventListener('DOMContentLoaded', function() {
+            const targetTempInput = document.getElementById('targetTemp');
+            const hotTempInput = document.getElementById('hotTemp');
+            const coldTempInput = document.getElementById('coldTemp');
+
+            // 监听输入事件
+            [targetTempInput, hotTempInput, coldTempInput].forEach(input => {
+                input.addEventListener('input', function() {
+                    limitTemperatureInput(this);
+                });
+
+                input.addEventListener('blur', function() {
+                    limitTemperatureInput(this);
+                });
+            });
+        });
+
+        // 选择温度
+        function selectTemp(value, event) {
+            const clickedButton = event && event.target ? event.target : null;
+            if (!clickedButton) return;
+
+            // 找到当前按钮所在的按钮组
+            const buttonGroup = clickedButton.closest('.button-group');
+            if (!buttonGroup) return;
+
+            // 清除同组所有按钮的active状态
+            const buttons = buttonGroup.querySelectorAll('.option-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const customInput = document.getElementById('customTempInput');
+            const targetTempInput = document.getElementById('targetTemp');
+
+            if (value === 'custom') {
+                clickedButton.classList.add('active');
+                customInput.classList.add('show');
+                targetTempInput.focus();
+                currentTemp = parseFloat(targetTempInput.value) || 45;
+            } else {
+                clickedButton.classList.add('active');
+                customInput.classList.remove('show');
+                currentTemp = value;
+                targetTempInput.value = value;
+            }
+        }
+
+        // 选择杯子容量
+        function selectCup(value, event) {
+            const clickedButton = event && event.target ? event.target : null;
+            if (!clickedButton) return;
+
+            // 找到当前按钮所在的按钮组
+            const buttonGroup = clickedButton.closest('.button-group');
+            if (!buttonGroup) return;
+
+            // 清除同组所有按钮的active状态
+            const buttons = buttonGroup.querySelectorAll('.option-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const customInput = document.getElementById('customCupInput');
+            const cupSizeInput = document.getElementById('cupSize');
+
+            if (value === 'custom') {
+                clickedButton.classList.add('active');
+                customInput.classList.add('show');
+                cupSizeInput.focus();
+                currentCup = parseFloat(cupSizeInput.value) || 1500;
+            } else {
+                clickedButton.classList.add('active');
+                customInput.classList.remove('show');
+                currentCup = value;
+                cupSizeInput.value = value;
+            }
+        }
+
         function calculate() {
             // 获取输入值
             const targetTemp = parseFloat(document.getElementById('targetTemp').value);
@@ -244,7 +1330,14 @@
 
             // 隐藏之前的结果和错误
             errorDiv.classList.remove('show');
-            resultDiv.classList.remove('show');
+
+            // 如果结果已显示，需要先移除show类，等待动画结束后再重新添加
+            const wasShown = resultDiv.classList.contains('show');
+            if (wasShown) {
+                resultDiv.classList.remove('show');
+                // 等待一小段时间让移除生效
+                void resultDiv.offsetWidth; // 强制重排
+            }
 
             // 验证输入
             if (isNaN(targetTemp) || isNaN(cupSize) || isNaN(hotTemp) || isNaN(coldTemp)) {
@@ -252,8 +1345,19 @@
                 return;
             }
 
-            if (targetTemp <= coldTemp || targetTemp >= hotTemp) {
-                showError('期望温度必须在凉水温度和热水温度之间');
+            // 验证温度范围 0-100°C
+            if (targetTemp < 0 || targetTemp > 100) {
+                showError('期望温度必须在 0-100°C 之间');
+                return;
+            }
+
+            if (hotTemp < 0 || hotTemp > 100) {
+                showError('热水温度必须在 0-100°C 之间');
+                return;
+            }
+
+            if (coldTemp < 0 || coldTemp > 100) {
+                showError('凉水温度必须在 0-100°C 之间');
                 return;
             }
 
@@ -267,15 +1371,82 @@
                 return;
             }
 
+            // 检查目标温度是否可实现
+            if (targetTemp > hotTemp) {
+                // 目标温度比最热的水还热 - 需要对水做功
+                showError(getRandomMessage(tooHotMessages));
+                return;
+            }
+
+            if (targetTemp < coldTemp) {
+                // 目标温度比最冷的水还冷 - 脑子有水
+                showError(getRandomMessage(tooColdMessages));
+                return;
+            }
+
             // 计算热水和凉水的量
             // 公式：热水量 = 总量 × (期望温度 - 凉水温度) / (热水温度 - 凉水温度)
             const hotWater = cupSize * (targetTemp - coldTemp) / (hotTemp - coldTemp);
             const coldWater = cupSize - hotWater;
 
-            // 显示结果（默认先接热水）
-            document.getElementById('step1').textContent = `先接热水 ${Math.round(hotWater)} 毫升`;
-            document.getElementById('step2').textContent = `再接凉水 ${Math.round(coldWater)} 毫升`;
-            document.getElementById('step3').textContent = `最终得到 ${Math.round(targetTemp)}°C 的温水 ${Math.round(cupSize)} 毫升`;
+            // 根据温度设置不同的颜色主题
+            let bgGradient, borderColor;
+            if (targetTemp <= 50) {
+                // 凉水 - 蓝色系
+                bgGradient = 'linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%)';
+                borderColor = '#81D4FA';
+            } else if (targetTemp <= 70) {
+                // 温水 - 青绿色系
+                bgGradient = 'linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%)';
+                borderColor = '#80CBC4';
+            } else {
+                // 热水 - 暖橙色系
+                bgGradient = 'linear-gradient(135deg, #FBE9E7 0%, #FFCCBC 100%)';
+                borderColor = '#FFAB91';
+            }
+
+            resultDiv.style.background = bgGradient;
+            resultDiv.style.borderColor = borderColor;
+
+            // 更新温度指示器
+            const tempMarker = document.getElementById('tempMarker');
+            const tempValue = document.getElementById('tempValue');
+            // 温度范围假设为0-100°C，计算百分比位置
+            const tempPercent = (targetTemp / 100) * 100;
+            tempMarker.style.left = `${tempPercent}%`;
+            tempValue.textContent = `${Math.round(targetTemp)}°C`;
+
+            // 更新水位指示器 - 分层显示热水和冷水
+            const waterHot = document.getElementById('waterHot');
+            const waterCold = document.getElementById('waterCold');
+
+            // 计算热水和冷水的百分比
+            const hotPercent = (hotWater / cupSize) * 100;
+            const coldPercent = (coldWater / cupSize) * 100;
+
+            // 热水在底部,占据底部的百分比高度
+            waterHot.style.height = `${hotPercent}%`;
+
+            // 冷水叠加在热水上面,总高度应该是100%
+            // 冷水的bottom位置应该从热水顶部开始
+            waterCold.style.height = `${coldPercent}%`;
+            waterCold.style.bottom = `${hotPercent}%`;
+
+            // 更新水信息显示
+            document.getElementById('totalVolume').textContent = `${Math.round(cupSize)}ml`;
+            document.getElementById('hotWaterAmount').textContent = `${Math.round(hotWater)}ml`;
+            document.getElementById('hotWaterPercent').textContent = `${Math.round(hotPercent)}%`;
+            document.getElementById('coldWaterAmount').textContent = `${Math.round(coldWater)}ml`;
+            document.getElementById('coldWaterPercent').textContent = `${Math.round(coldPercent)}%`;
+
+            // 显示结果（默认先接热水）- 使用温度色谱系统
+            const hotTempClass = getTempColorClass(hotTemp);
+            const coldTempClass = getTempColorClass(coldTemp);
+            const targetTempClass = getTempColorClass(targetTemp);
+
+            document.getElementById('step1').innerHTML = `先接<span class="temp-tag ${hotTempClass}">热水 ${Math.round(hotTemp)}°C</span> ${Math.round(hotWater)} 毫升`;
+            document.getElementById('step2').innerHTML = `再接<span class="temp-tag ${coldTempClass}">凉水 ${Math.round(coldTemp)}°C</span> ${Math.round(coldWater)} 毫升`;
+            document.getElementById('step3').innerHTML = `最终得到<span class="temp-tag ${targetTempClass}">${Math.round(targetTemp)}°C</span>的温水 ${Math.round(cupSize)} 毫升`;
 
             resultDiv.classList.add('show');
         }
