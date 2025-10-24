@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>水温混合计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .unit {
+            color: #999;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .step {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .step-content {
+            display: inline-block;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 15px;
+            background: #ffe5e5;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .advanced {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .advanced-title {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 水温混合计算器</h1>
+
+        <div class="input-group">
+            <label>期望水温 <span class="unit">°C</span></label>
+            <input type="number" id="targetTemp" placeholder="请输入期望温度" value="45" step="1" min="20" max="100">
+        </div>
+
+        <div class="input-group">
+            <label>杯子容量 <span class="unit">毫升</span></label>
+            <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
+        </div>
+
+        <div class="advanced">
+            <div class="advanced-title">高级设置</div>
+
+            <div class="input-group">
+                <label>热水温度 <span class="unit">°C</span></label>
+                <input type="number" id="hotTemp" value="100" step="1" min="20" max="100">
+            </div>
+
+            <div class="input-group">
+                <label>凉水温度 <span class="unit">°C</span></label>
+                <input type="number" id="coldTemp" value="20" step="1" min="0" max="50">
+            </div>
+        </div>
+
+        <button onclick="calculate()">计算</button>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <h2>操作步骤</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <span class="step-content" id="step1"></span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span class="step-content" id="step2"></span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span class="step-content" id="step3"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            // 获取输入值
+            const targetTemp = parseFloat(document.getElementById('targetTemp').value);
+            const cupSize = parseFloat(document.getElementById('cupSize').value);
+            const hotTemp = parseFloat(document.getElementById('hotTemp').value);
+            const coldTemp = parseFloat(document.getElementById('coldTemp').value);
+
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+
+            // 隐藏之前的结果和错误
+            errorDiv.classList.remove('show');
+            resultDiv.classList.remove('show');
+
+            // 验证输入
+            if (isNaN(targetTemp) || isNaN(cupSize) || isNaN(hotTemp) || isNaN(coldTemp)) {
+                showError('请填写所有数值');
+                return;
+            }
+
+            if (targetTemp <= coldTemp || targetTemp >= hotTemp) {
+                showError('期望温度必须在凉水温度和热水温度之间');
+                return;
+            }
+
+            if (cupSize <= 0) {
+                showError('杯子容量必须大于0');
+                return;
+            }
+
+            if (hotTemp <= coldTemp) {
+                showError('热水温度必须高于凉水温度');
+                return;
+            }
+
+            // 计算热水和凉水的量
+            // 公式：热水量 = 总量 × (期望温度 - 凉水温度) / (热水温度 - 凉水温度)
+            const hotWater = cupSize * (targetTemp - coldTemp) / (hotTemp - coldTemp);
+            const coldWater = cupSize - hotWater;
+
+            // 显示结果（默认先接热水）
+            document.getElementById('step1').textContent = `先接热水 ${Math.round(hotWater)} 毫升`;
+            document.getElementById('step2').textContent = `再接凉水 ${Math.round(coldWater)} 毫升`;
+            document.getElementById('step3').textContent = `最终得到 ${Math.round(targetTemp)}°C 的温水 ${Math.round(cupSize)} 毫升`;
+
+            resultDiv.classList.add('show');
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+        }
+
+        // 回车键触发计算
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>
