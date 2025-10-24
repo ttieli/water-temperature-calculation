@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Comic Sans MS', 'Apple Color Emoji', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #A8EDEA 0%, #FED6E3 50%, #FFD1FF 100%);
+            background: linear-gradient(135deg, #E0F7FA 0%, #81D4FA 50%, #4FC3F7 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -61,10 +61,16 @@
             padding: 40px;
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.4),
+            box-shadow: 0 20px 60px rgba(79, 195, 247, 0.4),
                         0 0 0 8px rgba(255, 255, 255, 0.8);
             position: relative;
             animation: bounceIn 0.6s ease-out;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
         }
 
         @keyframes bounceIn {
@@ -83,14 +89,21 @@
 
         h1 {
             text-align: center;
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 50%, #5AC8FA 100%);
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 50%, #00ACC1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 35px;
             font-size: 32px;
             font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.2);
+            text-shadow: 2px 2px 4px rgba(79, 195, 247, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
         }
 
         .input-group {
@@ -100,40 +113,59 @@
         label {
             display: block;
             margin-bottom: 10px;
-            color: #FF6B9D;
+            color: #0288D1;
             font-weight: 700;
             font-size: 15px;
+        }
+
+        @media (max-width: 480px) {
+            label {
+                font-size: 14px;
+            }
         }
 
         input {
             width: 100%;
             padding: 16px;
-            border: 3px solid #FFD1FF;
+            border: 3px solid #B3E5FC;
             border-radius: 18px;
             font-size: 16px;
             transition: all 0.3s ease;
             -webkit-appearance: none;
-            background: #FFFAF8;
+            background: #F1F8FB;
         }
 
         input:focus {
             outline: none;
-            border-color: #FF6B9D;
-            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15);
+            border-color: #0288D1;
+            box-shadow: 0 0 0 4px rgba(2, 136, 209, 0.15);
             transform: translateY(-2px);
         }
 
+        @media (max-width: 480px) {
+            input {
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+
         .unit {
-            color: #C06EF5;
+            color: #0097A7;
             font-size: 15px;
             margin-left: 5px;
             font-weight: 600;
         }
 
+        @media (max-width: 480px) {
+            .unit {
+                font-size: 14px;
+            }
+        }
+
         button {
             width: 100%;
             padding: 20px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
             color: white;
             border: none;
             border-radius: 20px;
@@ -142,9 +174,16 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 15px;
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+            box-shadow: 0 8px 20px rgba(2, 136, 209, 0.3);
             position: relative;
             overflow: hidden;
+        }
+
+        @media (max-width: 480px) {
+            button {
+                padding: 16px;
+                font-size: 18px;
+            }
         }
 
         button::before {
@@ -167,7 +206,7 @@
 
         button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 12px 30px rgba(2, 136, 209, 0.4);
         }
 
         button:active {
@@ -177,10 +216,17 @@
         .result {
             margin-top: 30px;
             padding: 30px;
-            background: linear-gradient(135deg, #FFF5F5 0%, #FFE6F7 100%);
+            background: linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%);
             border-radius: 25px;
             display: none;
-            border: 3px solid #FFD1FF;
+            border: 3px solid #81D4FA;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .result {
+                padding: 20px;
+            }
         }
 
         .result.show {
@@ -203,7 +249,7 @@
         }
 
         .result h2 {
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -213,58 +259,98 @@
             font-weight: 800;
         }
 
+        @media (max-width: 480px) {
+            .result h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
         .step {
             background: white;
             padding: 18px;
             border-radius: 18px;
             margin-bottom: 15px;
-            border: 3px solid #FFD1FF;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+            border: 3px solid #B3E5FC;
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.2);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
 
         .step:hover {
             transform: translateX(5px);
-            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.3);
+            box-shadow: 0 6px 20px rgba(79, 195, 247, 0.3);
         }
 
         .step:last-child {
             margin-bottom: 0;
         }
 
+        @media (max-width: 480px) {
+            .step {
+                padding: 14px;
+                gap: 10px;
+            }
+        }
+
         .step-number {
-            display: inline-block;
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
             color: white;
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            text-align: center;
-            line-height: 32px;
-            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 800;
             font-size: 16px;
-            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
+            box-shadow: 0 4px 10px rgba(2, 136, 209, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .step-number {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
         }
 
         .step-content {
-            display: inline-block;
+            flex: 1;
             color: #333;
             font-size: 16px;
             font-weight: 700;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        @media (max-width: 480px) {
+            .step-content {
+                font-size: 14px;
+            }
         }
 
         .error {
-            color: #FF6B9D;
+            color: #D32F2F;
             text-align: center;
             padding: 18px;
-            background: #FFE6F7;
+            background: #FFEBEE;
             border-radius: 18px;
             margin-top: 15px;
             display: none;
             font-weight: 700;
-            border: 3px solid #FFB6C1;
+            border: 3px solid #EF9A9A;
             animation: shake 0.5s ease;
+        }
+
+        @media (max-width: 480px) {
+            .error {
+                padding: 14px;
+                font-size: 14px;
+            }
         }
 
         @keyframes shake {
@@ -278,18 +364,32 @@
         }
 
         .advanced {
-            border-top: 3px dashed #FFD1FF;
+            border-top: 3px dashed #B3E5FC;
             padding-top: 25px;
             margin-top: 25px;
         }
 
+        @media (max-width: 480px) {
+            .advanced {
+                padding-top: 20px;
+                margin-top: 20px;
+            }
+        }
+
         .advanced-title {
-            color: #C06EF5;
+            color: #0097A7;
             font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 18px;
             font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .advanced-title {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
         }
 
         .button-group {
@@ -304,8 +404,8 @@
             min-width: 80px;
             padding: 14px 20px;
             background: white;
-            color: #FF6B9D;
-            border: 3px solid #FFD1FF;
+            color: #0288D1;
+            border: 3px solid #B3E5FC;
             border-radius: 18px;
             font-size: 16px;
             font-weight: 700;
@@ -315,11 +415,19 @@
             position: relative;
         }
 
+        @media (max-width: 480px) {
+            .option-button {
+                min-width: 70px;
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+
         .option-button:hover:not(.active) {
-            background: #FFF5F5;
-            border-color: #FF6B9D;
+            background: #E1F5FE;
+            border-color: #0288D1;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.2);
         }
 
         .option-button:active {
@@ -327,11 +435,57 @@
         }
 
         .option-button.active {
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06EF5 100%);
+            background: linear-gradient(135deg, #0288D1 0%, #0097A7 100%);
             color: white;
-            border-color: #FF6B9D;
-            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.3);
+            border-color: #0288D1;
+            box-shadow: 0 6px 20px rgba(2, 136, 209, 0.3);
             animation: pulse 0.6s ease;
+        }
+
+        /* 不同温度按钮的颜色 */
+        .option-button[onclick*="45"] {
+            color: #0288D1;
+            border-color: #B3E5FC;
+        }
+
+        .option-button[onclick*="45"]:hover:not(.active) {
+            background: #E1F5FE;
+            border-color: #0288D1;
+        }
+
+        .option-button[onclick*="45"].active {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            border-color: #0288D1;
+        }
+
+        .option-button[onclick*="70"] {
+            color: #00897B;
+            border-color: #B2DFDB;
+        }
+
+        .option-button[onclick*="70"]:hover:not(.active) {
+            background: #E0F2F1;
+            border-color: #00897B;
+        }
+
+        .option-button[onclick*="70"].active {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            border-color: #00897B;
+        }
+
+        .option-button[onclick*="80"] {
+            color: #F4511E;
+            border-color: #FFCCBC;
+        }
+
+        .option-button[onclick*="80"]:hover:not(.active) {
+            background: #FBE9E7;
+            border-color: #F4511E;
+        }
+
+        .option-button[onclick*="80"].active {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            border-color: #F4511E;
         }
 
         @keyframes pulse {
@@ -526,6 +680,25 @@
             // 公式：热水量 = 总量 × (期望温度 - 凉水温度) / (热水温度 - 凉水温度)
             const hotWater = cupSize * (targetTemp - coldTemp) / (hotTemp - coldTemp);
             const coldWater = cupSize - hotWater;
+
+            // 根据温度设置不同的颜色主题
+            let bgGradient, borderColor;
+            if (targetTemp <= 50) {
+                // 凉水 - 蓝色系
+                bgGradient = 'linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%)';
+                borderColor = '#81D4FA';
+            } else if (targetTemp <= 70) {
+                // 温水 - 青绿色系
+                bgGradient = 'linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%)';
+                borderColor = '#80CBC4';
+            } else {
+                // 热水 - 暖橙色系
+                bgGradient = 'linear-gradient(135deg, #FBE9E7 0%, #FFCCBC 100%)';
+                borderColor = '#FFAB91';
+            }
+
+            resultDiv.style.background = bgGradient;
+            resultDiv.style.borderColor = borderColor;
 
             // 显示结果（默认先接热水）
             document.getElementById('step1').textContent = `先接热水 ${Math.round(hotWater)} 毫升`;
