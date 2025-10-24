@@ -180,6 +180,63 @@
             letter-spacing: 1px;
             margin-bottom: 15px;
         }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .option-button {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 20px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .option-button:active {
+            transform: scale(0.95);
+        }
+
+        .option-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option-button:hover:not(.active) {
+            background: #f5f7ff;
+        }
+
+        .custom-input {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .custom-input.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -188,12 +245,27 @@
 
         <div class="input-group">
             <label>期望水温 <span class="unit">°C</span></label>
-            <input type="number" id="targetTemp" placeholder="请输入期望温度" value="45" step="1" min="20" max="100">
+            <div class="button-group">
+                <button type="button" class="option-button active" onclick="selectTemp(45)">45°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(70)">70°C</button>
+                <button type="button" class="option-button" onclick="selectTemp(80)">80°C</button>
+                <button type="button" class="option-button" onclick="selectTemp('custom')">自定义</button>
+            </div>
+            <div class="custom-input" id="customTempInput">
+                <input type="number" id="targetTemp" placeholder="请输入期望温度" value="45" step="1" min="20" max="100">
+            </div>
         </div>
 
         <div class="input-group">
             <label>杯子容量 <span class="unit">毫升</span></label>
-            <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
+            <div class="button-group">
+                <button type="button" class="option-button active" onclick="selectCup(1500)">1500ml</button>
+                <button type="button" class="option-button" onclick="selectCup(400)">400ml</button>
+                <button type="button" class="option-button" onclick="selectCup('custom')">自定义</button>
+            </div>
+            <div class="custom-input" id="customCupInput">
+                <input type="number" id="cupSize" placeholder="请输入杯子容量" value="1500" step="50" min="100">
+            </div>
         </div>
 
         <div class="advanced">
@@ -232,6 +304,52 @@
     </div>
 
     <script>
+        // 当前选择的温度和容量
+        let currentTemp = 45;
+        let currentCup = 1500;
+
+        // 选择温度
+        function selectTemp(value) {
+            const buttons = document.querySelectorAll('.input-group:first-child .option-button');
+            const customInput = document.getElementById('customTempInput');
+            const targetTempInput = document.getElementById('targetTemp');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (value === 'custom') {
+                event.target.classList.add('active');
+                customInput.classList.add('show');
+                targetTempInput.focus();
+                currentTemp = parseFloat(targetTempInput.value) || 45;
+            } else {
+                event.target.classList.add('active');
+                customInput.classList.remove('show');
+                currentTemp = value;
+                targetTempInput.value = value;
+            }
+        }
+
+        // 选择杯子容量
+        function selectCup(value) {
+            const buttons = document.querySelectorAll('.input-group:nth-child(2) .option-button');
+            const customInput = document.getElementById('customCupInput');
+            const cupSizeInput = document.getElementById('cupSize');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (value === 'custom') {
+                event.target.classList.add('active');
+                customInput.classList.add('show');
+                cupSizeInput.focus();
+                currentCup = parseFloat(cupSizeInput.value) || 1500;
+            } else {
+                event.target.classList.add('active');
+                customInput.classList.remove('show');
+                currentCup = value;
+                cupSizeInput.value = value;
+            }
+        }
+
         function calculate() {
             // 获取输入值
             const targetTemp = parseFloat(document.getElementById('targetTemp').value);
