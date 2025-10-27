@@ -770,6 +770,313 @@
             display: block;
         }
 
+        /* ====== 水声计时器样式 ====== */
+        .water-timer-container {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE082 100%);
+            border-radius: 25px;
+            border: 3px solid #FFD54F;
+        }
+
+        @media (max-width: 480px) {
+            .water-timer-container {
+                padding: 20px;
+                margin-top: 25px;
+            }
+        }
+
+        .timer-title {
+            text-align: center;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .timer-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .timer-status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: white;
+            font-weight: 700;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .timer-status.active {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            color: #2E7D32;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timer-status.warning {
+            background: linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%);
+            color: #D84315;
+        }
+
+        .timer-display {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timer-time {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 480px) {
+            .timer-time {
+                font-size: 42px;
+            }
+        }
+
+        .timer-target {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #F57C00;
+            font-weight: 600;
+        }
+
+        /* 音量指示器 */
+        .volume-indicator {
+            margin-bottom: 20px;
+        }
+
+        .volume-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #F57C00;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .volume-bar-container {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .volume-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 50%, #FFC107 75%, #FF5722 100%);
+            transition: width 0.1s ease-out;
+            border-radius: 15px;
+        }
+
+        .volume-threshold-line {
+            position: absolute;
+            left: 30%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(244, 81, 30, 0.6);
+            z-index: 1;
+        }
+
+        .volume-threshold-label {
+            position: absolute;
+            left: 30%;
+            top: -20px;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #F57C00;
+            font-weight: 600;
+        }
+
+        /* 控制按钮组 */
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            height: var(--control-height);
+            padding: 0 20px;
+            border: none;
+            border-radius: var(--button-radius);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timer-btn.primary {
+            background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 160, 71, 0.3);
+        }
+
+        .timer-btn.primary:hover {
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+        }
+
+        .timer-btn.primary:disabled {
+            background: linear-gradient(135deg, #BDBDBD 0%, #9E9E9E 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .timer-btn.danger {
+            background: linear-gradient(135deg, #EF5350 0%, #E53935 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3);
+        }
+
+        .timer-btn.danger:hover {
+            box-shadow: 0 6px 20px rgba(229, 57, 53, 0.4);
+        }
+
+        .timer-btn.secondary {
+            background: white;
+            color: #F57C00;
+            border: 3px solid #FFD54F;
+        }
+
+        .timer-btn.secondary:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        @media (max-width: 480px) {
+            .timer-btn {
+                font-size: 14px;
+                padding: 0 16px;
+            }
+        }
+
+        /* 目标时长设置 */
+        .target-duration {
+            margin-bottom: 20px;
+        }
+
+        .duration-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .duration-preset-btn {
+            padding: 8px 16px;
+            background: white;
+            color: #F57C00;
+            border: 2px solid #FFD54F;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .duration-preset-btn:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        .duration-preset-btn.active {
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            color: white;
+            border-color: #F57C00;
+        }
+
+        /* 历史记录 */
+        .history-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #FFD54F;
+        }
+
+        .history-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #F57C00;
+            margin-bottom: 12px;
+        }
+
+        .history-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-duration {
+            font-weight: 700;
+            color: #F57C00;
+        }
+
+        .history-time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .no-history {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        /* 提醒动画 */
+        @keyframes alertPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(244, 81, 30, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(244, 81, 30, 0);
+            }
+        }
+
+        .alert-active {
+            animation: alertPulse 1s ease-out infinite;
+        }
+
         .advanced {
             border-top: 3px dashed #B3E5FC;
             padding-top: 25px;
@@ -1206,6 +1513,69 @@
                 <span class="step-content" id="step3"></span>
             </div>
         </div>
+
+        <!-- 水声计时器 -->
+        <div class="water-timer-container">
+            <h2 class="timer-title">🎤 水声计时器</h2>
+
+            <!-- 状态显示 -->
+            <div class="timer-status" id="timerStatus">
+                请先启用麦克风权限
+            </div>
+
+            <!-- 计时显示 -->
+            <div class="timer-display">
+                <div class="timer-time" id="timerTime">00:00.0</div>
+                <div class="timer-target" id="timerTarget">目标时长: 未设置</div>
+            </div>
+
+            <!-- 音量指示器 -->
+            <div class="volume-indicator">
+                <label class="volume-label">
+                    音量检测 (超过阈值自动开始计时)
+                    <span class="volume-threshold-label">阈值</span>
+                </label>
+                <div class="volume-bar-container">
+                    <div class="volume-bar" id="volumeBar"></div>
+                    <div class="volume-threshold-line"></div>
+                </div>
+            </div>
+
+            <!-- 目标时长设置 -->
+            <div class="target-duration">
+                <label style="display: block; margin-bottom: 10px; color: #F57C00; font-weight: 700; font-size: 14px;">
+                    目标时长
+                </label>
+                <div class="duration-presets">
+                    <button type="button" class="duration-preset-btn active" onclick="setTargetDuration(5)">5秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(10)">10秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(15)">15秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(20)">20秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(30)">30秒</button>
+                </div>
+            </div>
+
+            <!-- 控制按钮 -->
+            <div class="timer-controls">
+                <button type="button" class="timer-btn primary" id="startMicBtn" onclick="startMicrophone()">
+                    启用麦克风
+                </button>
+                <button type="button" class="timer-btn danger" id="stopMicBtn" onclick="stopMicrophone()" style="display: none;">
+                    停止监听
+                </button>
+                <button type="button" class="timer-btn secondary" id="resetTimerBtn" onclick="resetTimer()">
+                    重置
+                </button>
+            </div>
+
+            <!-- 接水历史 -->
+            <div class="history-section">
+                <div class="history-title">接水历史</div>
+                <div class="history-list" id="historyList">
+                    <div class="no-history">暂无记录</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1505,6 +1875,339 @@
             if (event.key === 'Enter') {
                 calculate();
             }
+        });
+
+        // ====== 水声计时器功能 ======
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let javascriptNode = null;
+        let mediaStream = null;
+
+        // 计时器状态
+        let timerRunning = false;
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let targetDuration = 5; // 默认5秒
+
+        // 音量检测参数
+        const VOLUME_THRESHOLD = 0.3; // 音量阈值 (0-1)，超过此值认为正在接水
+        const SILENCE_DURATION = 1000; // 静音持续时间（毫秒），超过此时间停止计时
+        let lastSoundTime = 0;
+        let isDetectingWater = false;
+
+        // 提醒音频
+        let alertSound = null;
+
+        // 历史记录
+        let waterHistory = [];
+
+        // 初始化提醒音
+        function initAlertSound() {
+            // 创建一个简单的提示音
+            if (!audioContext) return;
+
+            alertSound = {
+                play: function() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+            };
+        }
+
+        // 启动麦克风
+        async function startMicrophone() {
+            try {
+                // 请求麦克风权限
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                });
+
+                // 创建音频上下文
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(mediaStream);
+                javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                analyser.smoothingTimeConstant = 0.8;
+                analyser.fftSize = 1024;
+
+                microphone.connect(analyser);
+                analyser.connect(javascriptNode);
+                javascriptNode.connect(audioContext.destination);
+
+                // 初始化提醒音
+                initAlertSound();
+
+                // 处理音频数据
+                javascriptNode.onaudioprocess = function() {
+                    const array = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(array);
+
+                    // 计算平均音量 (0-1)
+                    const average = array.reduce((a, b) => a + b) / array.length / 255;
+
+                    // 更新音量指示器
+                    updateVolumeBar(average);
+
+                    // 检测水声
+                    detectWaterSound(average);
+                };
+
+                // 更新UI
+                updateStatus('监听中 - 等待水声...', false);
+                document.getElementById('startMicBtn').style.display = 'none';
+                document.getElementById('stopMicBtn').style.display = 'flex';
+
+            } catch (error) {
+                console.error('无法访问麦克风:', error);
+                updateStatus('无法访问麦克风，请检查权限设置', false);
+                alert('无法访问麦克风。请确保:\n1. 浏览器有麦克风权限\n2. 使用 HTTPS 或 localhost\n3. 麦克风没有被其他应用占用');
+            }
+        }
+
+        // 停止麦克风
+        function stopMicrophone() {
+            if (javascriptNode) {
+                javascriptNode.disconnect();
+                javascriptNode = null;
+            }
+            if (analyser) {
+                analyser.disconnect();
+                analyser = null;
+            }
+            if (microphone) {
+                microphone.disconnect();
+                microphone = null;
+            }
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            // 停止计时器
+            if (timerRunning) {
+                stopTimer();
+            }
+
+            // 更新UI
+            updateStatus('已停止监听', false);
+            document.getElementById('startMicBtn').style.display = 'flex';
+            document.getElementById('stopMicBtn').style.display = 'none';
+            updateVolumeBar(0);
+        }
+
+        // 更新音量指示器
+        function updateVolumeBar(volume) {
+            const volumeBar = document.getElementById('volumeBar');
+            const percent = Math.min(volume * 100, 100);
+            volumeBar.style.width = percent + '%';
+        }
+
+        // 检测水声
+        function detectWaterSound(volume) {
+            const now = Date.now();
+
+            if (volume > VOLUME_THRESHOLD) {
+                // 检测到水声
+                lastSoundTime = now;
+
+                if (!isDetectingWater) {
+                    isDetectingWater = true;
+                    updateStatus('检测到水声 - 正在接水...', true);
+                }
+
+                // 如果计时器未运行，开始计时
+                if (!timerRunning) {
+                    startTimer();
+                }
+            } else {
+                // 音量低于阈值
+                if (isDetectingWater && timerRunning) {
+                    // 检查是否持续静音
+                    if (now - lastSoundTime > SILENCE_DURATION) {
+                        // 静音超过阈值时间，停止计时
+                        stopTimer();
+                        isDetectingWater = false;
+                        updateStatus('监听中 - 等待水声...', false);
+                    }
+                }
+            }
+        }
+
+        // 开始计时
+        function startTimer() {
+            if (timerRunning) return;
+
+            timerRunning = true;
+            startTime = Date.now() - elapsedTime;
+
+            timerInterval = setInterval(updateTimerDisplay, 100);
+
+            // 移除警告样式
+            document.getElementById('timerTime').classList.remove('alert-active');
+        }
+
+        // 停止计时
+        function stopTimer() {
+            if (!timerRunning) return;
+
+            timerRunning = false;
+            clearInterval(timerInterval);
+
+            // 记录到历史
+            if (elapsedTime > 500) { // 只记录超过0.5秒的
+                addToHistory(elapsedTime);
+            }
+
+            // 检查是否达到目标时长
+            const seconds = elapsedTime / 1000;
+            if (targetDuration > 0 && Math.abs(seconds - targetDuration) < 0.5) {
+                updateStatus(`完成！接水 ${seconds.toFixed(1)} 秒`, false);
+            }
+        }
+
+        // 更新计时显示
+        function updateTimerDisplay() {
+            if (!timerRunning) return;
+
+            elapsedTime = Date.now() - startTime;
+            const seconds = Math.floor(elapsedTime / 1000);
+            const milliseconds = Math.floor((elapsedTime % 1000) / 100);
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+
+            const timeStr = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${milliseconds}`;
+            document.getElementById('timerTime').textContent = timeStr;
+
+            // 检查是否接近目标时长
+            if (targetDuration > 0) {
+                const currentSeconds = elapsedTime / 1000;
+                const remaining = targetDuration - currentSeconds;
+
+                if (remaining <= 0 && !document.getElementById('timerTime').classList.contains('alert-active')) {
+                    // 达到目标时长
+                    document.getElementById('timerTime').classList.add('alert-active');
+                    updateStatus('⏰ 已达到目标时长！', true, true);
+
+                    // 播放提醒音
+                    if (alertSound) {
+                        alertSound.play();
+                        // 连续播放3次
+                        setTimeout(() => alertSound.play(), 300);
+                        setTimeout(() => alertSound.play(), 600);
+                    }
+
+                    // 振动提醒（如果支持）
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate([200, 100, 200, 100, 200]);
+                    }
+                }
+            }
+        }
+
+        // 重置计时器
+        function resetTimer() {
+            if (timerRunning) {
+                stopTimer();
+            }
+            elapsedTime = 0;
+            document.getElementById('timerTime').textContent = '00:00.0';
+            document.getElementById('timerTime').classList.remove('alert-active');
+
+            if (audioContext) {
+                updateStatus('监听中 - 等待水声...', false);
+            }
+        }
+
+        // 设置目标时长
+        function setTargetDuration(seconds) {
+            targetDuration = seconds;
+            document.getElementById('timerTarget').textContent = `目标时长: ${seconds}秒`;
+
+            // 更新按钮状态
+            document.querySelectorAll('.duration-preset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // 更新状态显示
+        function updateStatus(message, isActive, isWarning) {
+            const statusDiv = document.getElementById('timerStatus');
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('active', 'warning');
+
+            if (isWarning) {
+                statusDiv.classList.add('warning');
+            } else if (isActive) {
+                statusDiv.classList.add('active');
+            }
+        }
+
+        // 添加到历史记录
+        function addToHistory(duration) {
+            const seconds = (duration / 1000).toFixed(1);
+            const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+            waterHistory.unshift({ duration: seconds, time: time });
+
+            // 只保留最近10条
+            if (waterHistory.length > 10) {
+                waterHistory = waterHistory.slice(0, 10);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        // 更新历史记录显示
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+
+            if (waterHistory.length === 0) {
+                historyList.innerHTML = '<div class="no-history">暂无记录</div>';
+                return;
+            }
+
+            historyList.innerHTML = waterHistory.map(item => `
+                <div class="history-item">
+                    <span class="history-duration">${item.duration}秒</span>
+                    <span class="history-time">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查浏览器是否支持音频API
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                updateStatus('浏览器不支持麦克风功能', false);
+                document.getElementById('startMicBtn').disabled = true;
+            }
+
+            // 初始化目标时长显示
+            setTargetDuration(5);
         });
     </script>
 </body>
