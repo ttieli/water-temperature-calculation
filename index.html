@@ -770,6 +770,607 @@
             display: block;
         }
 
+        /* ====== 水声计时器样式 ====== */
+        .water-timer-container {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE082 100%);
+            border-radius: 25px;
+            border: 3px solid #FFD54F;
+        }
+
+        @media (max-width: 480px) {
+            .water-timer-container {
+                padding: 20px;
+                margin-top: 25px;
+            }
+        }
+
+        .timer-title {
+            text-align: center;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .timer-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .timer-status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: white;
+            font-weight: 700;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .timer-status.active {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            color: #2E7D32;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timer-status.warning {
+            background: linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%);
+            color: #D84315;
+        }
+
+        .timer-display {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timer-time {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 480px) {
+            .timer-time {
+                font-size: 42px;
+            }
+        }
+
+        .timer-target {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #F57C00;
+            font-weight: 600;
+        }
+
+        /* 音量指示器 */
+        .volume-indicator {
+            margin-bottom: 20px;
+        }
+
+        .volume-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #F57C00;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .volume-bar-container {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .volume-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 50%, #FFC107 75%, #FF5722 100%);
+            transition: width 0.1s ease-out;
+            border-radius: 15px;
+        }
+
+        .volume-threshold-line {
+            position: absolute;
+            left: 30%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(244, 81, 30, 0.6);
+            z-index: 1;
+        }
+
+        .volume-threshold-label {
+            position: absolute;
+            left: 30%;
+            top: -20px;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #F57C00;
+            font-weight: 600;
+        }
+
+        /* 控制按钮组 */
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            height: var(--control-height);
+            padding: 0 20px;
+            border: none;
+            border-radius: var(--button-radius);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timer-btn.primary {
+            background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 160, 71, 0.3);
+        }
+
+        .timer-btn.primary:hover {
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+        }
+
+        .timer-btn.primary:disabled {
+            background: linear-gradient(135deg, #BDBDBD 0%, #9E9E9E 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .timer-btn.danger {
+            background: linear-gradient(135deg, #EF5350 0%, #E53935 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3);
+        }
+
+        .timer-btn.danger:hover {
+            box-shadow: 0 6px 20px rgba(229, 57, 53, 0.4);
+        }
+
+        .timer-btn.secondary {
+            background: white;
+            color: #F57C00;
+            border: 3px solid #FFD54F;
+        }
+
+        .timer-btn.secondary:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        @media (max-width: 480px) {
+            .timer-btn {
+                font-size: 14px;
+                padding: 0 16px;
+            }
+        }
+
+        /* 目标时长设置 */
+        .target-duration {
+            margin-bottom: 20px;
+        }
+
+        .duration-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .duration-preset-btn {
+            padding: 8px 16px;
+            background: white;
+            color: #F57C00;
+            border: 2px solid #FFD54F;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .duration-preset-btn:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        .duration-preset-btn.active {
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            color: white;
+            border-color: #F57C00;
+        }
+
+        /* 历史记录 */
+        .history-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #FFD54F;
+        }
+
+        .history-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #F57C00;
+            margin-bottom: 12px;
+        }
+
+        .history-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-duration {
+            font-weight: 700;
+            color: #F57C00;
+        }
+
+        .history-time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .no-history {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        /* 提醒动画 */
+        @keyframes alertPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(244, 81, 30, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(244, 81, 30, 0);
+            }
+        }
+
+        .alert-active {
+            animation: alertPulse 1s ease-out infinite;
+        }
+
+        /* 校准功能样式 */
+        .calibration-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #FFD54F;
+        }
+
+        .calibration-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #F57C00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calibration-toggle {
+            padding: 6px 12px;
+            background: white;
+            color: #F57C00;
+            border: 2px solid #FFD54F;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: auto;
+        }
+
+        .calibration-toggle:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        .calibration-toggle.active {
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            color: white;
+        }
+
+        .calibration-content {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .calibration-content.show {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .flow-rate-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .flow-rate-card {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #FFD54F;
+        }
+
+        .flow-rate-card.hot {
+            border-color: #FFAB91;
+        }
+
+        .flow-rate-card.cold {
+            border-color: #81D4FA;
+        }
+
+        .flow-rate-label {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .flow-rate-label.hot {
+            color: #F4511E;
+        }
+
+        .flow-rate-label.cold {
+            color: #0288D1;
+        }
+
+        .flow-rate-value {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .flow-rate-value.hot {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .flow-rate-value.cold {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .flow-rate-unit {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .calibration-mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .calibration-mode-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            color: #F57C00;
+            border: 2px solid #FFD54F;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .calibration-mode-btn:hover {
+            background: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        .calibration-mode-btn.active.hot {
+            background: linear-gradient(135deg, #FF6E40 0%, #F4511E 100%);
+            color: white;
+            border-color: #F4511E;
+        }
+
+        .calibration-mode-btn.active.cold {
+            background: linear-gradient(135deg, #29B6F6 0%, #0288D1 100%);
+            color: white;
+            border-color: #0288D1;
+        }
+
+        .calibration-input-group {
+            margin-bottom: 15px;
+        }
+
+        .calibration-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #F57C00;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .calibration-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calibration-input-wrapper input {
+            flex: 1;
+            height: var(--control-height);
+            padding: 0 16px;
+            border: 2px solid #FFD54F;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .calibration-input-wrapper input:focus {
+            border-color: #F57C00;
+            box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.15);
+        }
+
+        .calibration-result {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #FFD54F;
+            text-align: center;
+        }
+
+        .calibration-result-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 6px;
+        }
+
+        .calibration-result-value {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F57C00 0%, #FF6F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .calibration-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calibration-btn {
+            flex: 1;
+            height: 44px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calibration-btn.start {
+            background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+            color: white;
+        }
+
+        .calibration-btn.start:hover {
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+
+        .calibration-btn.save {
+            background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+            color: white;
+        }
+
+        .calibration-btn.save:hover {
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+
+        .calibration-btn:disabled {
+            background: #BDBDBD;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .smart-mode-card {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #81C784;
+            margin-top: 15px;
+        }
+
+        .smart-mode-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .smart-mode-info {
+            font-size: 12px;
+            color: #558B2F;
+            line-height: 1.6;
+        }
+
+        .smart-mode-info strong {
+            color: #2E7D32;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .flow-rate-display {
+                grid-template-columns: 1fr;
+            }
+
+            .calibration-mode-selector {
+                flex-direction: column;
+            }
+        }
+
         .advanced {
             border-top: 3px dashed #B3E5FC;
             padding-top: 25px;
@@ -1206,6 +1807,139 @@
                 <span class="step-content" id="step3"></span>
             </div>
         </div>
+
+        <!-- 水声计时器 -->
+        <div class="water-timer-container">
+            <h2 class="timer-title">🎤 水声计时器</h2>
+
+            <!-- 状态显示 -->
+            <div class="timer-status" id="timerStatus">
+                请先启用麦克风权限
+            </div>
+
+            <!-- 计时显示 -->
+            <div class="timer-display">
+                <div class="timer-time" id="timerTime">00:00.0</div>
+                <div class="timer-target" id="timerTarget">目标时长: 未设置</div>
+            </div>
+
+            <!-- 音量指示器 -->
+            <div class="volume-indicator">
+                <label class="volume-label">
+                    音量检测 (超过阈值自动开始计时)
+                    <span class="volume-threshold-label">阈值</span>
+                </label>
+                <div class="volume-bar-container">
+                    <div class="volume-bar" id="volumeBar"></div>
+                    <div class="volume-threshold-line"></div>
+                </div>
+            </div>
+
+            <!-- 目标时长设置 -->
+            <div class="target-duration">
+                <label style="display: block; margin-bottom: 10px; color: #F57C00; font-weight: 700; font-size: 14px;">
+                    目标时长
+                </label>
+                <div class="duration-presets">
+                    <button type="button" class="duration-preset-btn active" onclick="setTargetDuration(5)">5秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(10)">10秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(15)">15秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(20)">20秒</button>
+                    <button type="button" class="duration-preset-btn" onclick="setTargetDuration(30)">30秒</button>
+                </div>
+            </div>
+
+            <!-- 控制按钮 -->
+            <div class="timer-controls">
+                <button type="button" class="timer-btn primary" id="startMicBtn" onclick="startMicrophone()">
+                    启用麦克风
+                </button>
+                <button type="button" class="timer-btn danger" id="stopMicBtn" onclick="stopMicrophone()" style="display: none;">
+                    停止监听
+                </button>
+                <button type="button" class="timer-btn secondary" id="resetTimerBtn" onclick="resetTimer()">
+                    重置
+                </button>
+            </div>
+
+            <!-- 接水历史 -->
+            <div class="history-section">
+                <div class="history-title">接水历史</div>
+                <div class="history-list" id="historyList">
+                    <div class="no-history">暂无记录</div>
+                </div>
+            </div>
+
+            <!-- 流速校准 -->
+            <div class="calibration-section">
+                <div class="calibration-title">
+                    流速校准
+                    <button type="button" class="calibration-toggle" id="calibrationToggle" onclick="toggleCalibration()">
+                        展开校准
+                    </button>
+                </div>
+
+                <div class="calibration-content" id="calibrationContent">
+                    <!-- 流速显示 -->
+                    <div class="flow-rate-display">
+                        <div class="flow-rate-card hot">
+                            <div class="flow-rate-label hot">🔥 热水流速</div>
+                            <div class="flow-rate-value hot" id="hotFlowRate">--</div>
+                            <div class="flow-rate-unit">ml/秒</div>
+                        </div>
+                        <div class="flow-rate-card cold">
+                            <div class="flow-rate-label cold">❄️ 冷水流速</div>
+                            <div class="flow-rate-value cold" id="coldFlowRate">--</div>
+                            <div class="flow-rate-unit">ml/秒</div>
+                        </div>
+                    </div>
+
+                    <!-- 校准模式选择 -->
+                    <div class="calibration-mode-selector">
+                        <button type="button" class="calibration-mode-btn active hot" id="calibrateHotBtn" onclick="selectCalibrationMode('hot')">
+                            🔥 校准热水
+                        </button>
+                        <button type="button" class="calibration-mode-btn cold" id="calibrateColdBtn" onclick="selectCalibrationMode('cold')">
+                            ❄️ 校准冷水
+                        </button>
+                    </div>
+
+                    <!-- 输入容量 -->
+                    <div class="calibration-input-group">
+                        <label>请输入接水容量（毫升）</label>
+                        <div class="calibration-input-wrapper">
+                            <input type="number" id="calibrationVolume" placeholder="例如: 500" value="500" min="10" step="10">
+                            <span style="color: #F57C00; font-weight: 700; font-size: 14px;">ml</span>
+                        </div>
+                    </div>
+
+                    <!-- 校准结果显示 -->
+                    <div class="calibration-result" id="calibrationResult" style="display: none;">
+                        <div class="calibration-result-label">计算流速</div>
+                        <div class="calibration-result-value" id="calibrationResultValue">--</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 4px;">ml/秒</div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="calibration-actions">
+                        <button type="button" class="calibration-btn start" id="calibrationStartBtn" onclick="startCalibration()">
+                            开始校准计时
+                        </button>
+                        <button type="button" class="calibration-btn save" id="calibrationSaveBtn" onclick="saveFlowRate()" disabled>
+                            保存流速
+                        </button>
+                    </div>
+
+                    <!-- 智能模式提示 -->
+                    <div class="smart-mode-card">
+                        <div class="smart-mode-title">💡 智能提示</div>
+                        <div class="smart-mode-info">
+                            完成热水和冷水流速校准后，在水温计算器中点击"计算"，系统会自动根据所需水量计算接水时长并更新目标时长设置。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1491,6 +2225,41 @@
             document.getElementById('step2').innerHTML = `<span>再接</span><span class="temp-tag ${coldTempClass}">凉水 ${Math.round(coldTemp)}°C</span><span> ${Math.round(coldWater)} 毫升</span>`;
             document.getElementById('step3').innerHTML = `<span>最终得到</span><span class="temp-tag ${targetTempClass}">${Math.round(targetTemp)}°C</span><span>的温水 ${Math.round(cupSize)} 毫升</span>`;
 
+            // 保存计算结果供智能模式使用
+            lastCalculatedHotWater = hotWater;
+            lastCalculatedColdWater = coldWater;
+
+            // 智能模式：如果已校准流速，自动计算并设置时长
+            if (hotFlowRate > 0 && coldFlowRate > 0) {
+                // 计算热水和冷水的接水时长
+                const hotDuration = Math.ceil(hotWater / hotFlowRate);
+                const coldDuration = Math.ceil(coldWater / coldFlowRate);
+
+                // 显示智能提示
+                const smartInfo = document.createElement('div');
+                smartInfo.className = 'smart-mode-card';
+                smartInfo.style.marginTop = '15px';
+                smartInfo.innerHTML = `
+                    <div class="smart-mode-title">🤖 智能计算</div>
+                    <div class="smart-mode-info">
+                        <strong>热水:</strong> ${Math.round(hotWater)}ml ÷ ${hotFlowRate.toFixed(1)}ml/s ≈ <strong>${hotDuration}秒</strong><br>
+                        <strong>冷水:</strong> ${Math.round(coldWater)}ml ÷ ${coldFlowRate.toFixed(1)}ml/s ≈ <strong>${coldDuration}秒</strong><br>
+                        <span style="color: #1B5E20; margin-top: 8px; display: block;">
+                            💡 建议：先设置目标${hotDuration}秒接热水，完成后设置目标${coldDuration}秒接冷水
+                        </span>
+                    </div>
+                `;
+
+                // 移除之前的智能提示（如果有）
+                const oldSmartInfo = resultDiv.querySelector('.smart-mode-card');
+                if (oldSmartInfo) {
+                    oldSmartInfo.remove();
+                }
+
+                // 添加到结果区域
+                resultDiv.appendChild(smartInfo);
+            }
+
             resultDiv.classList.add('show');
         }
 
@@ -1505,6 +2274,581 @@
             if (event.key === 'Enter') {
                 calculate();
             }
+        });
+
+        // ====== 水声计时器功能 ======
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let javascriptNode = null;
+        let mediaStream = null;
+
+        // 计时器状态
+        let timerRunning = false;
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let targetDuration = 5; // 默认5秒
+
+        // 音量检测参数
+        const VOLUME_THRESHOLD = 0.3; // 音量阈值 (0-1)，超过此值认为正在接水
+        const SILENCE_DURATION = 1000; // 静音持续时间（毫秒），超过此时间停止计时
+        let lastSoundTime = 0;
+        let isDetectingWater = false;
+
+        // 提醒音频
+        let alertSound = null;
+
+        // 历史记录
+        let waterHistory = [];
+
+        // 流速校准相关
+        let hotFlowRate = 0; // 热水流速 ml/秒
+        let coldFlowRate = 0; // 冷水流速 ml/秒
+        let currentCalibrationMode = 'hot'; // 当前校准模式: 'hot' 或 'cold'
+        let isCalibrating = false;
+        let calibrationStartTime = 0;
+        let calibrationElapsedTime = 0;
+        let lastCalculatedHotWater = 0; // 上次计算的热水量
+        let lastCalculatedColdWater = 0; // 上次计算的冷水量
+
+        // 初始化提醒音
+        function initAlertSound() {
+            // 创建一个简单的提示音
+            if (!audioContext) return;
+
+            alertSound = {
+                play: function() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+            };
+        }
+
+        // 启动麦克风
+        async function startMicrophone() {
+            try {
+                // 请求麦克风权限
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                });
+
+                // 创建音频上下文
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(mediaStream);
+                javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                analyser.smoothingTimeConstant = 0.8;
+                analyser.fftSize = 1024;
+
+                microphone.connect(analyser);
+                analyser.connect(javascriptNode);
+                javascriptNode.connect(audioContext.destination);
+
+                // 初始化提醒音
+                initAlertSound();
+
+                // 处理音频数据
+                javascriptNode.onaudioprocess = function() {
+                    const array = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(array);
+
+                    // 计算平均音量 (0-1)
+                    const average = array.reduce((a, b) => a + b) / array.length / 255;
+
+                    // 更新音量指示器
+                    updateVolumeBar(average);
+
+                    // 检测水声
+                    detectWaterSound(average);
+                };
+
+                // 更新UI
+                updateStatus('监听中 - 等待水声...', false);
+                document.getElementById('startMicBtn').style.display = 'none';
+                document.getElementById('stopMicBtn').style.display = 'flex';
+
+            } catch (error) {
+                console.error('无法访问麦克风:', error);
+                updateStatus('无法访问麦克风，请检查权限设置', false);
+                alert('无法访问麦克风。请确保:\n1. 浏览器有麦克风权限\n2. 使用 HTTPS 或 localhost\n3. 麦克风没有被其他应用占用');
+            }
+        }
+
+        // 停止麦克风
+        function stopMicrophone() {
+            if (javascriptNode) {
+                javascriptNode.disconnect();
+                javascriptNode = null;
+            }
+            if (analyser) {
+                analyser.disconnect();
+                analyser = null;
+            }
+            if (microphone) {
+                microphone.disconnect();
+                microphone = null;
+            }
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            // 停止计时器
+            if (timerRunning) {
+                stopTimer();
+            }
+
+            // 更新UI
+            updateStatus('已停止监听', false);
+            document.getElementById('startMicBtn').style.display = 'flex';
+            document.getElementById('stopMicBtn').style.display = 'none';
+            updateVolumeBar(0);
+        }
+
+        // 更新音量指示器
+        function updateVolumeBar(volume) {
+            const volumeBar = document.getElementById('volumeBar');
+            const percent = Math.min(volume * 100, 100);
+            volumeBar.style.width = percent + '%';
+        }
+
+        // 检测水声
+        function detectWaterSound(volume) {
+            const now = Date.now();
+
+            if (volume > VOLUME_THRESHOLD) {
+                // 检测到水声
+                lastSoundTime = now;
+
+                if (!isDetectingWater) {
+                    isDetectingWater = true;
+                    updateStatus('检测到水声 - 正在接水...', true);
+                }
+
+                // 如果计时器未运行，开始计时
+                if (!timerRunning) {
+                    startTimer();
+                }
+            } else {
+                // 音量低于阈值
+                if (isDetectingWater && timerRunning) {
+                    // 检查是否持续静音
+                    if (now - lastSoundTime > SILENCE_DURATION) {
+                        // 静音超过阈值时间，停止计时
+                        stopTimer();
+                        isDetectingWater = false;
+                        updateStatus('监听中 - 等待水声...', false);
+                    }
+                }
+            }
+        }
+
+        // 开始计时
+        function startTimer() {
+            if (timerRunning) return;
+
+            timerRunning = true;
+            startTime = Date.now() - elapsedTime;
+
+            timerInterval = setInterval(updateTimerDisplay, 100);
+
+            // 移除警告样式
+            document.getElementById('timerTime').classList.remove('alert-active');
+        }
+
+        // 停止计时
+        function stopTimer() {
+            if (!timerRunning) return;
+
+            timerRunning = false;
+            clearInterval(timerInterval);
+
+            // 记录到历史
+            if (elapsedTime > 500) { // 只记录超过0.5秒的
+                addToHistory(elapsedTime);
+            }
+
+            // 检查是否达到目标时长
+            const seconds = elapsedTime / 1000;
+            if (targetDuration > 0 && Math.abs(seconds - targetDuration) < 0.5) {
+                updateStatus(`完成！接水 ${seconds.toFixed(1)} 秒`, false);
+            }
+        }
+
+        // 更新计时显示
+        function updateTimerDisplay() {
+            if (!timerRunning) return;
+
+            elapsedTime = Date.now() - startTime;
+            const seconds = Math.floor(elapsedTime / 1000);
+            const milliseconds = Math.floor((elapsedTime % 1000) / 100);
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+
+            const timeStr = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${milliseconds}`;
+            document.getElementById('timerTime').textContent = timeStr;
+
+            // 检查是否接近目标时长
+            if (targetDuration > 0) {
+                const currentSeconds = elapsedTime / 1000;
+                const remaining = targetDuration - currentSeconds;
+
+                if (remaining <= 0 && !document.getElementById('timerTime').classList.contains('alert-active')) {
+                    // 达到目标时长
+                    document.getElementById('timerTime').classList.add('alert-active');
+                    updateStatus('⏰ 已达到目标时长！', true, true);
+
+                    // 播放提醒音
+                    if (alertSound) {
+                        alertSound.play();
+                        // 连续播放3次
+                        setTimeout(() => alertSound.play(), 300);
+                        setTimeout(() => alertSound.play(), 600);
+                    }
+
+                    // 振动提醒（如果支持）
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate([200, 100, 200, 100, 200]);
+                    }
+                }
+            }
+        }
+
+        // 重置计时器
+        function resetTimer() {
+            if (timerRunning) {
+                stopTimer();
+            }
+            elapsedTime = 0;
+            document.getElementById('timerTime').textContent = '00:00.0';
+            document.getElementById('timerTime').classList.remove('alert-active');
+
+            if (audioContext) {
+                updateStatus('监听中 - 等待水声...', false);
+            }
+        }
+
+        // 设置目标时长
+        function setTargetDuration(seconds) {
+            targetDuration = seconds;
+            document.getElementById('timerTarget').textContent = `目标时长: ${seconds}秒`;
+
+            // 更新按钮状态
+            document.querySelectorAll('.duration-preset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // 更新状态显示
+        function updateStatus(message, isActive, isWarning) {
+            const statusDiv = document.getElementById('timerStatus');
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('active', 'warning');
+
+            if (isWarning) {
+                statusDiv.classList.add('warning');
+            } else if (isActive) {
+                statusDiv.classList.add('active');
+            }
+        }
+
+        // 添加到历史记录
+        function addToHistory(duration) {
+            const seconds = (duration / 1000).toFixed(1);
+            const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+            waterHistory.unshift({ duration: seconds, time: time });
+
+            // 只保留最近10条
+            if (waterHistory.length > 10) {
+                waterHistory = waterHistory.slice(0, 10);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        // 更新历史记录显示
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+
+            if (waterHistory.length === 0) {
+                historyList.innerHTML = '<div class="no-history">暂无记录</div>';
+                return;
+            }
+
+            historyList.innerHTML = waterHistory.map(item => `
+                <div class="history-item">
+                    <span class="history-duration">${item.duration}秒</span>
+                    <span class="history-time">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // ====== 流速校准功能 ======
+
+        // 从localStorage加载流速数据
+        function loadFlowRates() {
+            const savedHot = localStorage.getItem('hotFlowRate');
+            const savedCold = localStorage.getItem('coldFlowRate');
+
+            if (savedHot) {
+                hotFlowRate = parseFloat(savedHot);
+                document.getElementById('hotFlowRate').textContent = hotFlowRate.toFixed(1);
+            }
+
+            if (savedCold) {
+                coldFlowRate = parseFloat(savedCold);
+                document.getElementById('coldFlowRate').textContent = coldFlowRate.toFixed(1);
+            }
+        }
+
+        // 保存流速数据到localStorage
+        function saveFlowRatesToStorage() {
+            if (hotFlowRate > 0) {
+                localStorage.setItem('hotFlowRate', hotFlowRate.toString());
+            }
+            if (coldFlowRate > 0) {
+                localStorage.setItem('coldFlowRate', coldFlowRate.toString());
+            }
+        }
+
+        // 切换校准面板
+        function toggleCalibration() {
+            const content = document.getElementById('calibrationContent');
+            const toggle = document.getElementById('calibrationToggle');
+
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                toggle.textContent = '展开校准';
+                toggle.classList.remove('active');
+            } else {
+                content.classList.add('show');
+                toggle.textContent = '收起校准';
+                toggle.classList.add('active');
+            }
+        }
+
+        // 选择校准模式
+        function selectCalibrationMode(mode) {
+            currentCalibrationMode = mode;
+
+            // 更新按钮状态
+            const hotBtn = document.getElementById('calibrateHotBtn');
+            const coldBtn = document.getElementById('calibrateColdBtn');
+
+            if (mode === 'hot') {
+                hotBtn.classList.add('active');
+                coldBtn.classList.remove('active');
+            } else {
+                coldBtn.classList.add('active');
+                hotBtn.classList.remove('active');
+            }
+
+            // 如果正在校准，停止
+            if (isCalibrating) {
+                stopCalibration();
+            }
+        }
+
+        // 开始校准
+        function startCalibration() {
+            const volume = parseFloat(document.getElementById('calibrationVolume').value);
+
+            if (!volume || volume <= 0) {
+                alert('请输入有效的接水容量');
+                return;
+            }
+
+            // 确保麦克风已启动
+            if (!audioContext) {
+                alert('请先启用麦克风');
+                return;
+            }
+
+            // 重置普通计时器
+            if (timerRunning) {
+                stopTimer();
+            }
+            elapsedTime = 0;
+            document.getElementById('timerTime').textContent = '00:00.0';
+
+            // 开始校准计时
+            isCalibrating = true;
+            calibrationStartTime = 0; // 会在检测到水声时设置
+            calibrationElapsedTime = 0;
+
+            // 更新按钮状态
+            document.getElementById('calibrationStartBtn').textContent = '等待水声...';
+            document.getElementById('calibrationStartBtn').disabled = true;
+            document.getElementById('calibrationSaveBtn').disabled = true;
+            document.getElementById('calibrationResult').style.display = 'none';
+
+            // 更新状态
+            const waterType = currentCalibrationMode === 'hot' ? '热水' : '冷水';
+            updateStatus(`校准模式 - 请开始接${waterType} ${volume}ml`, true);
+        }
+
+        // 停止校准
+        function stopCalibration() {
+            if (!isCalibrating) return;
+
+            isCalibrating = false;
+            const volume = parseFloat(document.getElementById('calibrationVolume').value);
+
+            if (calibrationElapsedTime > 500) {
+                // 计算流速
+                const seconds = calibrationElapsedTime / 1000;
+                const flowRate = volume / seconds;
+
+                // 显示结果
+                document.getElementById('calibrationResultValue').textContent = flowRate.toFixed(1);
+                document.getElementById('calibrationResult').style.display = 'block';
+
+                // 启用保存按钮
+                document.getElementById('calibrationSaveBtn').disabled = false;
+
+                updateStatus(`校准完成！流速: ${flowRate.toFixed(1)} ml/秒`, false);
+            } else {
+                updateStatus('校准时间太短，请重试', false);
+            }
+
+            // 恢复按钮
+            document.getElementById('calibrationStartBtn').textContent = '开始校准计时';
+            document.getElementById('calibrationStartBtn').disabled = false;
+
+            // 重置计时
+            calibrationStartTime = 0;
+            calibrationElapsedTime = 0;
+        }
+
+        // 保存流速
+        function saveFlowRate() {
+            const resultValue = document.getElementById('calibrationResultValue').textContent;
+            const flowRate = parseFloat(resultValue);
+
+            if (!flowRate || flowRate <= 0) return;
+
+            if (currentCalibrationMode === 'hot') {
+                hotFlowRate = flowRate;
+                document.getElementById('hotFlowRate').textContent = flowRate.toFixed(1);
+            } else {
+                coldFlowRate = flowRate;
+                document.getElementById('coldFlowRate').textContent = flowRate.toFixed(1);
+            }
+
+            // 保存到localStorage
+            saveFlowRatesToStorage();
+
+            // 提示
+            const waterType = currentCalibrationMode === 'hot' ? '热水' : '冷水';
+            updateStatus(`${waterType}流速已保存: ${flowRate.toFixed(1)} ml/秒`, false);
+
+            // 禁用保存按钮
+            document.getElementById('calibrationSaveBtn').disabled = true;
+
+            // 隐藏结果
+            setTimeout(() => {
+                document.getElementById('calibrationResult').style.display = 'none';
+            }, 2000);
+        }
+
+        // 修改检测水声函数，支持校准模式
+        const originalDetectWaterSound = detectWaterSound;
+        detectWaterSound = function(volume) {
+            const now = Date.now();
+
+            if (volume > VOLUME_THRESHOLD) {
+                // 检测到水声
+                lastSoundTime = now;
+
+                if (!isDetectingWater) {
+                    isDetectingWater = true;
+
+                    if (isCalibrating) {
+                        const waterType = currentCalibrationMode === 'hot' ? '热水' : '冷水';
+                        updateStatus(`检测到${waterType} - 校准计时中...`, true);
+                    } else {
+                        updateStatus('检测到水声 - 正在接水...', true);
+                    }
+                }
+
+                // 校准模式
+                if (isCalibrating) {
+                    if (calibrationStartTime === 0) {
+                        calibrationStartTime = now;
+                    }
+                    calibrationElapsedTime = now - calibrationStartTime;
+
+                    // 更新计时显示
+                    const seconds = Math.floor(calibrationElapsedTime / 1000);
+                    const milliseconds = Math.floor((calibrationElapsedTime % 1000) / 100);
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    const timeStr = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${milliseconds}`;
+                    document.getElementById('timerTime').textContent = timeStr;
+                } else {
+                    // 普通模式
+                    if (!timerRunning) {
+                        startTimer();
+                    }
+                }
+            } else {
+                // 音量低于阈值
+                if (isDetectingWater) {
+                    // 检查是否持续静音
+                    if (now - lastSoundTime > SILENCE_DURATION) {
+                        // 静音超过阈值时间
+                        if (isCalibrating) {
+                            stopCalibration();
+                        } else {
+                            stopTimer();
+                        }
+                        isDetectingWater = false;
+
+                        if (audioContext && !isCalibrating) {
+                            updateStatus('监听中 - 等待水声...', false);
+                        }
+                    }
+                }
+            }
+        };
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查浏览器是否支持音频API
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                updateStatus('浏览器不支持麦克风功能', false);
+                document.getElementById('startMicBtn').disabled = true;
+            }
+
+            // 初始化目标时长显示
+            setTargetDuration(5);
+
+            // 加载保存的流速数据
+            loadFlowRates();
         });
     </script>
 </body>
